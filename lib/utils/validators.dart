@@ -9,7 +9,7 @@ RN04: abreviações com ponto não devem ser aceitas */
 
   static String? validateName(String? value) {
     RegExp upperCaseValidator = RegExp(r'[A-Z]');
-    RegExp hasSymbol = RegExp(r'[!@#<>?":_`~;[\]\\|=+)(*&^%0-9-]');
+    RegExp hasSymbol = RegExp(r'[!@#<>?.":_`~;[\]\\|=+)(*&^%0-9-]');
     if (value == null || value.isEmpty) {
       return 'Opa, voce precisa digitar o seu nome!';
     } else if (!value.contains('  ') && !hasSymbol.hasMatch(value)) {
