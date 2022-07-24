@@ -25,4 +25,8 @@ RN04: abreviações com ponto não devem ser aceitas */
     }
     return null;
   }
+
+  static String? validateEmail(String? value) {
+    print('ola');
+  }
 }
