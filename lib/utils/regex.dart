@@ -3,4 +3,6 @@ class RegexTypes {
   static RegExp hasSymbol = RegExp(r'[!@#<>?.":_`~;[\]\\|=+)(*&^%0-9-]');
   static RegExp emailValidator = RegExp(
       r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])+");
+  static RegExp passwordValidator =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\_$&*~]).{8,}$');
 }
