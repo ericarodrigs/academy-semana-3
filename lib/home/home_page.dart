@@ -268,7 +268,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 24),
+                margin: const EdgeInsets.only(bottom: 24),
                 child: SizedBox(
                   width: 240,
                   height: 48,
