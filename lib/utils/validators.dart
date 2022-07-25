@@ -1,11 +1,13 @@
 import 'package:raro_buddy_group_4/utils/regex.dart';
 
 class Validators extends RegexTypes {
-  Validators();
   static String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Opa, voce precisa digitar o seu nome!';
-    } else if (!value.contains('  ') && !RegexTypes.hasSymbol.hasMatch(value)) {
+    }
+    if (!value.contains('  ') &&
+        !RegexTypes.hasSymbol.hasMatch(value) &&
+        !RegexTypes.hasNumber.hasMatch(value)) {
       // print(valu
       final List<String> isUpper = value.split(' ');
       for (int i = 0; i < isUpper.length; i++) {
@@ -14,7 +16,7 @@ class Validators extends RegexTypes {
         }
       }
     } else {
-      return 'Ei, espaços concecutivos e símbolos não são permitidos';
+      return 'Ei, espaços consecutivos, símbolos e números não são permitidos';
     }
     return null;
   }
@@ -22,7 +24,8 @@ class Validators extends RegexTypes {
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Ou, o campo de email não pode ser vazio';
-    } else if (!RegexTypes.emailValidator.hasMatch(value) ||
+    }
+    if (!RegexTypes.emailValidator.hasMatch(value) ||
         value.contains(' ') ||
         RegexTypes.upperCaseValidator.hasMatch(value)) {
       return 'Cara, digita um email válido';
@@ -33,24 +36,41 @@ class Validators extends RegexTypes {
   static String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Digita sua Senha, sem ela nao tem como entrar';
-    } else if (!RegexTypes.passwordValidator.hasMatch(value)) {
-      return """
-Sua senha deve conter no mínimo 8 caracteres
-Sua senha deve conter pelo menos 1 letra minúscula
-Sua senha deve conter pelo menos 1 letra maiúscula
-Sua senha deve conter pelo menos 1 caractere especial
-      """;
+    }
+    if (value.length < 8) {
+      return "A senha deve conter no mínimo 8 caracteres";
+    }
+    if (!RegexTypes.uppercaseAndLowercaseValidator.hasMatch(value)) {
+      return "A senha deve ter letras minúsculas e maiúsculas";
+    }
+    if (!RegexTypes.hasNumber.hasMatch(value)) {
+      return "A senha deve ter pelo menos 1 número";
+    }
+    if (!RegexTypes.hasSymbol.hasMatch(value)) {
+      return "A senha deve ter pelo menos 1 caractere especial";
     }
     return null;
   }
 
-  static bool confirmatePassword(String? value, String? currentPassword) {
-    // print(value);
-    // print(currentPassword);
-    // print(value != currentPassword);
-    if (value != currentPassword) {
-      return true;
+  static String? confirmatePassword(String? value, String? currentPassword) {
+    if (value == null || value.isEmpty) {
+      return 'Digita sua Senha, sem ela nao tem como entrar';
     }
-    return false;
+    if (value.length < 8) {
+      return "A senha deve conter no mínimo 8 caracteres";
+    }
+    if (!RegexTypes.uppercaseAndLowercaseValidator.hasMatch(value)) {
+      return "A senha deve ter letras minúsculas e maiúsculas";
+    }
+    if (!RegexTypes.hasNumber.hasMatch(value)) {
+      return "A senha deve ter pelo menos 1 número";
+    }
+    if (!RegexTypes.hasSymbol.hasMatch(value)) {
+      return "A senha deve ter pelo menos 1 caractere especial";
+    }
+    if (value != currentPassword) {
+      return 'As senhas não condizem';
+    }
+    return null;
   }
 }
