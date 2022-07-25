@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GenderIdentity gender = GenderIdentity.masculino;
   bool isChecked = false;
+  String currentPassword = '';
   String dropdownValue = 'Flutter';
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -82,6 +83,12 @@ class _HomePageState extends State<HomePage> {
                 margin: const EdgeInsets.all(12),
                 child: TextFormField(
                   cursorColor: Colors.black,
+                  validator: Validators.validatePassword,
+                  onChanged: (value) {
+                    setState(() {
+                      currentPassword = value;
+                    });
+                  },
                   decoration: InputDecoration(
                       labelText: 'Senha',
                       labelStyle: const TextStyle(color: Colors.black),
@@ -94,6 +101,14 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 12, right: 12),
                 margin: const EdgeInsets.all(12),
                 child: TextFormField(
+                  validator: (value) {
+                    if (Validators.confirmatePassword(value, currentPassword)) {
+                      return "As senhas não condizem";
+                    } else {
+                      return null;
+                    }
+                    ;
+                  },
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
                       labelText: 'Confirmar Senha',
@@ -101,6 +116,21 @@ class _HomePageState extends State<HomePage> {
                       enabledBorder: inputBorder,
                       disabledBorder: inputBorder,
                       focusedBorder: inputBorder),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                child: SizedBox(
+                  width: 240,
+                  height: 48,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        formKey.currentState!.validate();
+                      },
+                      child: const Text(
+                        'Criar Conta',
+                        style: TextStyle(fontSize: 18),
+                      )),
                 ),
               ),
               Container(
@@ -267,21 +297,6 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 24),
-                child: SizedBox(
-                  width: 240,
-                  height: 48,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        formKey.currentState!.validate();
-                      },
-                      child: const Text(
-                        'Criar Conta',
-                        style: TextStyle(fontSize: 18),
-                      )),
                 ),
               ),
             ],
