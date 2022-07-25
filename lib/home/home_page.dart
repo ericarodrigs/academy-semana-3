@@ -119,21 +119,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(bottom: 24),
-                child: SizedBox(
-                  width: 240,
-                  height: 48,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        formKey.currentState!.validate();
-                      },
-                      child: const Text(
-                        'Criar Conta',
-                        style: TextStyle(fontSize: 18),
-                      )),
-                ),
-              ),
-              Container(
                 padding: const EdgeInsets.only(left: 12, right: 12),
                 margin: const EdgeInsets.all(12),
                 child: TextFormField(
@@ -297,6 +282,21 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 16),
                     ),
                   ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 24),
+                child: SizedBox(
+                  width: 240,
+                  height: 48,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        formKey.currentState!.validate();
+                      },
+                      child: const Text(
+                        'Criar Conta',
+                        style: TextStyle(fontSize: 18),
+                      )),
                 ),
               ),
             ],
