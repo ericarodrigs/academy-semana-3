@@ -107,7 +107,6 @@ class _HomePageState extends State<HomePage> {
                     } else {
                       return null;
                     }
-                    ;
                   },
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
