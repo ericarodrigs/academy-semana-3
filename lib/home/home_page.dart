@@ -66,7 +66,9 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.only(left: 12, right: 12),
                 margin: const EdgeInsets.all(12),
                 child: TextFormField(
+                  validator: Validators.validateEmail,
                   cursorColor: Colors.black,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       labelText: 'E-mail',
                       labelStyle: const TextStyle(color: Colors.black),
@@ -268,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 24),
+                margin: const EdgeInsets.only(bottom: 24),
                 child: SizedBox(
                   width: 240,
                   height: 48,
