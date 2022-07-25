@@ -29,4 +29,28 @@ class Validators extends RegexTypes {
     }
     return null;
   }
+
+  static String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Digita sua Senha, sem ela nao tem como entrar';
+    } else if (!RegexTypes.passwordValidator.hasMatch(value)) {
+      return """
+Sua senha deve conter no mínimo 8 caracteres
+Sua senha deve conter pelo menos 1 letra minúscula
+Sua senha deve conter pelo menos 1 letra maiúscula
+Sua senha deve conter pelo menos 1 caractere especial
+      """;
+    }
+    return null;
+  }
+
+  static bool confirmatePassword(String? value, String? currentPassword) {
+    // print(value);
+    // print(currentPassword);
+    // print(value != currentPassword);
+    if (value != currentPassword) {
+      return true;
+    }
+    return false;
+  }
 }
