@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class InputTextWidget extends StatelessWidget {
   const InputTextWidget({
@@ -9,23 +10,32 @@ class InputTextWidget extends StatelessWidget {
     this.validator,
     this.obscureText,
     this.togglePasswordView,
+    this.keyboardType,
+    this.inputFormatters,
+    this.controller,
   }) : super(key: key);
 
   final String labelText;
   final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final bool? obscureText;
   final VoidCallback? togglePasswordView;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: TextFormField(
-        textInputAction: textInputAction ?? TextInputAction.done,
+        controller: controller,
+        textInputAction: textInputAction,
+        keyboardType: keyboardType,
         validator: validator,
         onChanged: onChanged,
+        inputFormatters: inputFormatters,
         obscureText: obscureText ?? false,
         cursorColor: Colors.black,
         decoration: InputDecoration(
