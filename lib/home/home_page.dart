@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:raro_buddy_group_4/utils/validators.dart';
 import 'package:raro_buddy_group_4/widgets/input_text_widget.dart';
@@ -17,7 +19,11 @@ class _HomePageState extends State<HomePage> {
   bool isHiddenConfirmatePassword = true;
   String currentPassword = '';
   String dropdownValue = 'Flutter';
+  MaskedTextController controllerCPF =
+      MaskedTextController(mask: '000.000.000-00');
 
+  MaskedTextController controllerBirthdate =
+      MaskedTextController(mask: '00/00/0000');
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   InputBorder inputBorder = const OutlineInputBorder(
@@ -62,12 +68,14 @@ class _HomePageState extends State<HomePage> {
                     validator: Validators.validateName,
                     onChanged: (value) {},
                     textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.name,
                   ),
                   InputTextWidget(
                     labelText: 'E-mail',
                     validator: Validators.validateEmail,
                     onChanged: (value) {},
                     textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   InputTextWidget(
                     labelText: 'Senha',
@@ -122,12 +130,24 @@ class _HomePageState extends State<HomePage> {
                   InputTextWidget(
                     labelText: 'CPF',
                     onChanged: (value) {},
+                    controller: controllerCPF,
                     textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.number,
+                    validator: Validators.validateCPF,
+                    inputFormatters: [
+                      // obrigatório
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                   ),
                   InputTextWidget(
                     labelText: 'Data de Nascimento',
                     onChanged: (value) {},
                     textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      // obrigatório
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 24, top: 12, bottom: 12),

@@ -12,8 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #Fonts
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
+
+  #Mask
+  flutter_masked_text2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

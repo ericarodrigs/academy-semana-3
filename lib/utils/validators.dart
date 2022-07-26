@@ -53,24 +53,17 @@ class Validators extends RegexTypes {
   }
 
   static String? confirmatePassword(String? value, String? currentPassword) {
-    if (value == null || value.isEmpty) {
-      return 'Digita sua Senha, sem ela nao tem como entrar';
-    }
-    if (value.length < 8) {
-      return "A senha deve conter no mínimo 8 caracteres";
-    }
-    if (!RegexTypes.uppercaseAndLowercaseValidator.hasMatch(value)) {
-      return "A senha deve ter letras minúsculas e maiúsculas";
-    }
-    if (!RegexTypes.hasNumber.hasMatch(value)) {
-      return "A senha deve ter pelo menos 1 número";
-    }
-    if (!RegexTypes.hasSymbol.hasMatch(value)) {
-      return "A senha deve ter pelo menos 1 caractere especial";
-    }
     if (value != currentPassword) {
       return 'As senhas não condizem';
     }
+    return null;
+  }
+
+  static String? validateCPF(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+
     return null;
   }
 }
