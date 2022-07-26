@@ -1,3 +1,5 @@
+import 'package:raro_buddy_group_4/home/home_page.dart';
+import 'package:raro_buddy_group_4/utils/date_utilities.dart';
 import 'package:raro_buddy_group_4/utils/regex.dart';
 
 class Validators extends RegexTypes {
@@ -38,16 +40,16 @@ class Validators extends RegexTypes {
       return 'Digita sua Senha, sem ela nao tem como entrar';
     }
     if (value.length < 8) {
-      return "A senha deve conter no mínimo 8 caracteres";
+      return 'A senha deve conter no mínimo 8 caracteres';
     }
     if (!RegexTypes.uppercaseAndLowercaseValidator.hasMatch(value)) {
-      return "A senha deve ter letras minúsculas e maiúsculas";
+      return 'A senha deve ter letras minúsculas e maiúsculas';
     }
     if (!RegexTypes.hasNumber.hasMatch(value)) {
-      return "A senha deve ter pelo menos 1 número";
+      return 'A senha deve ter pelo menos 1 número';
     }
     if (!RegexTypes.hasSymbol.hasMatch(value)) {
-      return "A senha deve ter pelo menos 1 caractere especial";
+      return 'A senha deve ter pelo menos 1 caractere especial';
     }
     return null;
   }
@@ -64,6 +66,47 @@ class Validators extends RegexTypes {
       return 'Campo obrigatório';
     }
 
+    return null;
+  }
+
+  static String? validateBirthdate(String? value) {
+    final DateTime dateDeleted = DateTime(1920, 01, 01);
+
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+
+    final DateTime date = converterToDate(value: value);
+
+    if (date.compareTo(dateDeleted) < 0) {
+      return 'A data não pode ser anterior a 01/01/1920';
+    }
+
+    if (!validateDate(value)) {
+      return 'Data inválida';
+    }
+
+    return null;
+  }
+
+  static String? validateGroup(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Campo obrigatório';
+    }
+    return null;
+  }
+
+  static String? validateGender(GenderIdentity? value) {
+    if (value == GenderIdentity.vazio) {
+      return 'Campo obrigatório';
+    }
+    return null;
+  }
+
+  static String? validateTerms(bool? value) {
+    if (value != null && !value) {
+      return 'Campo obrigatório';
+    }
     return null;
   }
 }

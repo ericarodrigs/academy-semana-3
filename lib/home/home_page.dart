@@ -13,16 +13,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  GenderIdentity gender = GenderIdentity.masculino;
+  GenderIdentity gender = GenderIdentity.vazio;
   bool isChecked = false;
   bool isHiddenPassword = true;
   bool isHiddenConfirmatePassword = true;
   String currentPassword = '';
-  String dropdownValue = 'Flutter';
-  MaskedTextController controllerCPF =
+  String dropdownValue = '';
+  String birthdate = 'birthdate';
+  MaskedTextController cpfController =
       MaskedTextController(mask: '000.000.000-00');
 
-  MaskedTextController controllerBirthdate =
+  MaskedTextController birthdateController =
       MaskedTextController(mask: '00/00/0000');
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -106,6 +107,219 @@ class _HomePageState extends State<HomePage> {
                       });
                     },
                   ),
+                  InputTextWidget(
+                    labelText: 'CPF',
+                    onChanged: (value) {},
+                    controller: cpfController,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.number,
+                    validator: Validators.validateCPF,
+                    inputFormatters: [
+                      // obrigatório
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                  InputTextWidget(
+                    controller: birthdateController,
+                    labelText: 'Data de birthdate',
+                    onChanged: (value) {},
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    validator: Validators.validateBirthdate,
+                    inputFormatters: [
+                      // obrigatório
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, top: 12, bottom: 12),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Identidade de Gênero',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  FormField<GenderIdentity>(
+                    builder: (state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListTile(
+                            dense: true,
+                            visualDensity: const VisualDensity(
+                                vertical: -3, horizontal: -4),
+                            title: const Text(
+                              'Masculino',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            leading: Radio<GenderIdentity>(
+                              value: GenderIdentity.masculino,
+                              groupValue: gender,
+                              onChanged: (genderSelected) {
+                                setState(() {
+                                  gender = genderSelected!;
+                                  state.didChange(genderSelected);
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            dense: true,
+                            visualDensity: const VisualDensity(
+                                vertical: -3, horizontal: -4),
+                            title: const Text(
+                              'Feminino',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            leading: Radio<GenderIdentity>(
+                              value: GenderIdentity.feminino,
+                              groupValue: gender,
+                              onChanged: (GenderIdentity? genderSelected) {
+                                setState(() {
+                                  gender = genderSelected!;
+                                  state.didChange(genderSelected);
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            dense: true,
+                            visualDensity: const VisualDensity(
+                                vertical: -3, horizontal: -4),
+                            title: const Text(
+                              'Outro',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            leading: Radio<GenderIdentity>(
+                              value: GenderIdentity.outro,
+                              groupValue: gender,
+                              onChanged: (GenderIdentity? genderSelected) {
+                                setState(() {
+                                  gender = genderSelected!;
+                                  state.didChange(genderSelected);
+                                });
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 13),
+                            child: Text(
+                              state.errorText ?? '',
+                              style: TextStyle(
+                                color: Theme.of(context).errorColor,
+                                fontSize: 13,
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                    validator: (value) => Validators.validateGender(gender),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 24, top: 12, bottom: 12),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Turma',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButtonFormField(
+                        isExpanded: true,
+                        isDense: true,
+                        validator: Validators.validateGroup,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 1),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 1),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 1),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 1.5),
+                          ),
+                        ),
+                        items: <String>['Flutter', 'NodeJS', 'QA']
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: FormField<bool>(
+                        builder: (state) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Checkbox(
+                                      value: isChecked,
+                                      onChanged: (value) {
+                                        setState(() {
+//save checkbox value to variable that store terms and notify form that state changed
+                                          isChecked = value!;
+                                          state.didChange(value);
+                                        });
+                                      }),
+                                  const Text(
+                                    'Concordo com os termos',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+//display error in matching theme
+                              Text(
+                                state.errorText ?? '',
+                                style: TextStyle(
+                                  color: Theme.of(context).errorColor,
+                                  fontSize: 13,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                        validator: (value) =>
+                            Validators.validateTerms(isChecked)),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: SizedBox(
@@ -127,164 +341,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  InputTextWidget(
-                    labelText: 'CPF',
-                    onChanged: (value) {},
-                    controller: controllerCPF,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.number,
-                    validator: Validators.validateCPF,
-                    inputFormatters: [
-                      // obrigatório
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  ),
-                  InputTextWidget(
-                    labelText: 'Data de Nascimento',
-                    onChanged: (value) {},
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      // obrigatório
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, top: 12, bottom: 12),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Identidade de Gênero',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      ListTile(
-                        dense: true,
-                        visualDensity:
-                            const VisualDensity(vertical: -3, horizontal: -4),
-                        title: const Text(
-                          'Masculino',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        leading: Radio<GenderIdentity>(
-                          value: GenderIdentity.masculino,
-                          groupValue: gender,
-                          onChanged: (GenderIdentity? genderSelected) {
-                            setState(() {
-                              gender = genderSelected!;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        dense: true,
-                        visualDensity:
-                            const VisualDensity(vertical: -3, horizontal: -4),
-                        title: const Text(
-                          'Feminino',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        leading: Radio<GenderIdentity>(
-                          value: GenderIdentity.feminino,
-                          groupValue: gender,
-                          onChanged: (GenderIdentity? genderSelected) {
-                            setState(() {
-                              gender = genderSelected!;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        dense: true,
-                        visualDensity:
-                            const VisualDensity(vertical: -3, horizontal: -4),
-                        title: const Text(
-                          'Outro',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                        leading: Radio<GenderIdentity>(
-                          value: GenderIdentity.outro,
-                          groupValue: gender,
-                          onChanged: (GenderIdentity? genderSelected) {
-                            setState(() {
-                              gender = genderSelected!;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 24, top: 12, bottom: 12),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Turma',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                  InputDecorator(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 1),
-                      ),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                          isExpanded: true,
-                          isDense: true,
-                          value: dropdownValue,
-                          items: <String>['Flutter', 'NodeJS', 'QA']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          }),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            value: isChecked,
-                            onChanged: (value) {
-                              setState(() {
-                                isChecked = !isChecked;
-                              });
-                            }),
-                        const Text(
-                          'Concordo com os termos.',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -295,4 +351,4 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-enum GenderIdentity { masculino, feminino, outro }
+enum GenderIdentity { masculino, feminino, outro, vazio }
